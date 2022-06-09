@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Bump version
 
 # Controls when the workflow will run
 on: 
@@ -10,8 +10,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  report:
-    runs-on: ubuntu-latest
+  versionup:
+    runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -25,7 +25,7 @@ jobs:
       - name: Bump version
         uses: yanamura/ios-bump-version@v1
         with:
-          version: $MARKETING_VERSION
+          version: ${{ env.MARKETING_VERSION }}
           # build-number: ${{github.run_number}}
           project-path: UpstraUIKit/AmityUIKit.xcodeproj
           
