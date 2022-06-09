@@ -27,12 +27,14 @@ jobs:
         uses: yanamura/ios-bump-version@v1
         with:
           version: ${{ steps.marketing_version.outputs.version }}
+          build-number: 1
           project-path: UpstraUIKit
           
       - name: Bump sample app version
         uses: yanamura/ios-bump-version@v1
         with:
           version: ${{ steps.marketing_version.outputs.version }}
+          build-number: 1
           project-path: UpstraUIKit/SampleApp
           
       - name: Commit changes
