@@ -42,11 +42,14 @@ jobs:
           git add -A
           git commit -am "Bump AmityUIKit version"
           git push
-          
+  
+  createPullRequest:
+    runs-on: ubuntu-latest
+    steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with: 
-          title: Release ${{ steps.marketing_version.outputs.version }}
+          title: 'Release ${{ steps.marketing_version.outputs.version }}'
           body: |
             ### Issue:
             [ ] New Feature
@@ -54,4 +57,4 @@ jobs:
             [ ] Breaking Changes
             [ ] Internal Improvements
             [x] Others
-          labels: ${{ steps.marketing_version.outputs.version }}
+          # labels: ${{ steps.marketing_version.outputs.version }}
