@@ -42,3 +42,16 @@ jobs:
           git add -A
           git commit -am "Bump AmityUIKit version"
           git push
+          
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v4
+        with: 
+          title: Release ${{ steps.marketing_version.outputs.version }}
+          body: |
+            ### Issue:
+            [ ] New Feature
+            [ ] Bug Fix
+            [ ] Breaking Changes
+            [ ] Internal Improvements
+            [x] Others
+          labels: ${{ steps.marketing_version.outputs.version }}
