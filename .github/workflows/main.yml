@@ -16,8 +16,6 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
         
-      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-        
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/}
         
@@ -38,19 +36,29 @@ jobs:
           version: ${{ steps.marketing_version.outputs.version }}
           build-number: 1
           project-path: UpstraUIKit/SampleApp
+      
+      - name: Commit changes
+        run: |
+          git add -A
+          git commit -am "Bump AmityUIKit version"
+          git push
   
   createPullRequest:
     runs-on: ubuntu-latest
     needs: versionup
     steps:
+      - name: Checkout master
+        uses: actions/checkout@v3
+        with:
+          path: master
+        
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with: 
-          commit-message: Bump AmityUIKit version
           title: 'Release ${{ steps.marketing_version.outputs.version }}'
-          branch: ${GITHUB_REF##*/}
-          base: master
+          branch: release-2.20.0
           body: |
             ### Issue:
             [ ] New Feature
