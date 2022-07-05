@@ -10,7 +10,7 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  versionup:
+  bumpversion:
     runs-on: macos-latest
     steps:
       - name: Checkout branch
@@ -45,48 +45,29 @@ jobs:
   
   createPullRequest:
     runs-on: ubuntu-latest
-    needs: versionup
+    needs: bumpversion
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
+        
+      - name: Extract version
+        run: echo "##[set-output name=version;]$(echo ${GITHUB_REF#refs/heads/release-})"
+        id: marketing_version
         
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: release-2.20.0
           target_branch: master
           title: Release ${{ steps.marketing_version.outputs.version }}
           body: |
             ### Issue:
-            [ ] New Feature
-            [ ] Bug Fix
-            [ ] Breaking Changes
-            [ ] Internal Improvements
-            [x] Others
-#           label: enhancement
+            - [ ] New Feature
+            - [ ] Bug Fix
+            - [ ] Breaking Changes
+            - [ ] Internal Improvements
+            - [x] Others
+          label: ${{ steps.marketing_version.outputs.version }}
           draft: false
           allow_no_diff: false
-#       - name: Checkout master
-#         uses: actions/checkout@v3
-#         with:
-#           path: master
-        
-#       - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      
-#       - name: Create Pull Request
-#         uses: peter-evans/create-pull-request@v4
-#         with: 
-#           title: 'Release ${{ steps.marketing_version.outputs.version }}'
-#           branch: release-2.20.0
-#           base: master
-#           body: |
-#             ### Issue:
-#             [ ] New Feature
-#             [ ] Bug Fix
-#             [ ] Breaking Changes
-#             [ ] Internal Improvements
-#             [x] Others
-#           draft: false
-#           delete-branch: true
 
