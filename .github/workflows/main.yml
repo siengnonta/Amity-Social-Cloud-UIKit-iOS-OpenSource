@@ -50,4 +50,12 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with: 
-          title: Release ${{ steps.marketing_version.outputs.version }}
+          title: 'Release 2.20.0'
+          body: |
+            ### Issue:
+            [ ] New Feature
+            [ ] Bug Fix
+            [ ] Breaking Changes
+            [ ] Internal Improvements
+            [x] Others
+
