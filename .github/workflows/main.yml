@@ -45,16 +45,9 @@ jobs:
   
   createPullRequest:
     runs-on: ubuntu-latest
+    needs: versionup
     steps:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v4
         with: 
-          title: 'Release ${{ steps.marketing_version.outputs.version }}'
-          body: |
-            ### Issue:
-            [ ] New Feature
-            [ ] Bug Fix
-            [ ] Breaking Changes
-            [ ] Internal Improvements
-            [x] Others
-          # labels: ${{ steps.marketing_version.outputs.version }}
+          title: Release ${{ steps.marketing_version.outputs.version }}
