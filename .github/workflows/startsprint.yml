@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
-      
-      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
         
       - name: Branch name
         run: echo running on branch ${GITHUB_REF##*/}
@@ -41,6 +39,7 @@ jobs:
       
       - name: Commit changes
         run: |
+          git config --global user.name "${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>"
           git add -A
           git commit -am "Bump AmityUIKit version"
           git push
