@@ -51,7 +51,7 @@ jobs:
         uses: devops-infra/action-pull-request@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          source_branch: ${GITHUB_REF##*/}
+          source_branch: release-2.20.0
           target_branch: master
           title: Release ${{ steps.marketing_version.outputs.version }}
           body: |
