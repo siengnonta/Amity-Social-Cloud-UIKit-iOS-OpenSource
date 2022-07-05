@@ -47,18 +47,13 @@ jobs:
     runs-on: ubuntu-latest
     needs: versionup
     steps:
-      - name: Checkout master
-        uses: actions/checkout@v3
+      - name: Run the Action
+        uses: devops-infra/action-pull-request@v0.5.0
         with:
-          path: master
-        
-      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
-      
-      - name: Create Pull Request
-        uses: peter-evans/create-pull-request@v4
-        with: 
-          title: 'Release ${{ steps.marketing_version.outputs.version }}'
-          branch: release-2.20.0
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_branch: ${GITHUB_REF##*/}
+          target_branch: master
+          title: Release ${{ steps.marketing_version.outputs.version }}
           body: |
             ### Issue:
             [ ] New Feature
@@ -66,6 +61,29 @@ jobs:
             [ ] Breaking Changes
             [ ] Internal Improvements
             [x] Others
+#           label: enhancement
           draft: false
-          delete-branch: true
+          allow_no_diff: false
+#       - name: Checkout master
+#         uses: actions/checkout@v3
+#         with:
+#           path: master
+        
+#       - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      
+#       - name: Create Pull Request
+#         uses: peter-evans/create-pull-request@v4
+#         with: 
+#           title: 'Release ${{ steps.marketing_version.outputs.version }}'
+#           branch: release-2.20.0
+#           base: master
+#           body: |
+#             ### Issue:
+#             [ ] New Feature
+#             [ ] Bug Fix
+#             [ ] Breaking Changes
+#             [ ] Internal Improvements
+#             [x] Others
+#           draft: false
+#           delete-branch: true
 
