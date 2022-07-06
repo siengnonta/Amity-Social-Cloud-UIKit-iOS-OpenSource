@@ -36,13 +36,17 @@ jobs:
           version: ${{ steps.marketing_version.outputs.version }}
           build-number: 1
           project-path: UpstraUIKit/SampleApp
-      
+          
       - name: Commit changes
         run: |
-          git config --global user.name "${{ secrets.GIT_USER }}"
-          git add -A
+          git config --local user.name "${{ github.actor }}"
           git commit -am "Bump AmityUIKit version ${{ steps.marketing_version.outputs.version }}"
-          git push
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
   
   createPullRequest:
     runs-on: ubuntu-latest
