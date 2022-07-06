@@ -49,13 +49,17 @@ jobs:
     steps:
       - name: Checkout branch
         uses: actions/checkout@v3
+
+      - name: Extract version
+        run: echo "##[set-output name=version;]$(echo ${GITHUB_REF#refs/heads/release-})"
+        id: marketing_version
         
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           target_branch: master
-          title: Release ${{ bumpversion.steps.marketing_version.outputs.version }}
+          title: Release ${{ steps.marketing_version.outputs.version }}
           body: |
             ### Issue:
             - [ ] New Feature
