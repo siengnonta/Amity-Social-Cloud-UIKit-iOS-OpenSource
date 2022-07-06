@@ -39,7 +39,7 @@ jobs:
           
       - name: Commit changes
         run: |
-          git config --local user.name "${{ github.actor }}"
+          git config --global user.name "${{ github.actor }}"
           git commit -am "Bump AmityUIKit version ${{ steps.marketing_version.outputs.version }}"
           
       - name: Push changes
@@ -72,6 +72,8 @@ jobs:
             - [ ] Breaking Changes
             - [ ] Internal Improvements
             - [x] Others
+            
+            authored by [${{ github.actor }}](https://github.com/${{ github.actor }})
           label: ${{ steps.marketing_version.outputs.version }}
           draft: false
           allow_no_diff: false
