@@ -37,16 +37,11 @@ jobs:
           build-number: 1
           project-path: UpstraUIKit/SampleApp
           
-      - name: Commit changes
+      - name: Commit and push changes
         run: |
           git config --global user.name "${{ github.actor }}"
           git commit -am "Bump AmityUIKit version ${{ steps.marketing_version.outputs.version }}"
-          
-      - name: Push changes
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ github.ref }}
+          git push
   
   createPullRequest:
     runs-on: ubuntu-latest
@@ -55,16 +50,12 @@ jobs:
       - name: Checkout branch
         uses: actions/checkout@v3
         
-      - name: Extract version
-        run: echo "##[set-output name=version;]$(echo ${GITHUB_REF#refs/heads/release-})"
-        id: marketing_version
-        
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           target_branch: master
-          title: Release ${{ steps.marketing_version.outputs.version }}
+          title: Release ${{ bumpversion.steps.marketing_version.outputs.version }}
           body: |
             ### Issue:
             - [ ] New Feature
