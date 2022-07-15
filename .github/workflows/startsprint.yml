@@ -54,6 +54,11 @@ jobs:
         run: echo "##[set-output name=version;]$(echo ${GITHUB_REF#refs/heads/release-})"
         id: marketing_version
         
+      
+      - name: Random hexcolor
+        id: random_color
+        run: echo ::set-output name=hexcolor::$(echo "$(openssl rand -hex 3)")
+        
       - name: Create label
         uses: octokit/request-action@v2.x
         id: create_check_run
@@ -62,7 +67,7 @@ jobs:
           owner: siengnonta
           repo: Amity-Social-Cloud-UIKit-iOS-OpenSource
           name: ${{ steps.marketing_version.outputs.version }}
-          color: "32a86d"
+          color: ${{ steps.random_color.outputs.hexColor }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         
