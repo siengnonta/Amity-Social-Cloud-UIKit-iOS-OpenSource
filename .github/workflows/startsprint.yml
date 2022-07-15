@@ -54,6 +54,15 @@ jobs:
         run: echo "##[set-output name=version;]$(echo ${GITHUB_REF#refs/heads/release-})"
         id: marketing_version
         
+      - name: Create label
+        run: |
+          curl \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \ 
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/${{ github.repository }}/labels \
+            -d '{"name":"${{ steps.marketing_version.outputs.version }}","color":"32a86d"}'
+        
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.0
         with:
