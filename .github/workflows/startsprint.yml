@@ -61,7 +61,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \ 
             -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             "https://api.github.com/repos/${{ github.repository }}/labels" \
-            -d '{"name":"${{ steps.marketing_version.outputs.version }}","color":"32a86d"}'
+            -d "{\"name\":\"${{ steps.marketing_version.outputs.version }}\",\"color\":\"32a86d\"}"
         
       - name: Run the Action
         uses: devops-infra/action-pull-request@v0.5.0
